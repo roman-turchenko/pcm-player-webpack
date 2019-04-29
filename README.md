@@ -1,3 +1,6 @@
+The settings for the local server you can find in webpack.config.dev.js
+Do not forget to change IP for your own
+
 PCM Player
 -----------
 A minimalist javascript audio player for PCM streaming data for the browsers.
