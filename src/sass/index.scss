@@ -1,4 +1,45 @@
 body{
   background: white;
   font-size: 30px;
+
+  div#container{
+    width: 100%;
+    padding: 20px 60px;
+  }
+
+  div#log{
+    padding: 60px 0 0 0;
+    width: 50%;
+    right: 0;
+    top: 0;
+    position: absolute;
+  }
+
+  input {
+ //   height: 60px;
+    display: inline-block;
+    font-size: 40px;
+  }
+
+  .button {
+    width: 100px;
+    height: 40px;
+    display: inline-block;
+  }
+
+  span.red{
+    background: red;
+  }
+
+  span.green{
+    background: green;
+  }
+
+  span.yellow{
+    background: yellow;
+  }
+
+  span.blue{
+    background: blue;
+  }
 }

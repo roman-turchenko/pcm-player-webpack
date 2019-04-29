@@ -5,16 +5,36 @@
     <title>Opus to PCM</title>
 </head>
 <body>
-<div id="container" style="width: 400px; margin: 0 auto;">
-    <h2>Update IP address and Port, and then click connect button</h2>
-    <h2>Keep 'ws://' !</h2>
+<div id="container">
+    <form id="url">
+        <p>WSS : <input type="text" id="wsAddress" name="wss" value="ws://192.168.0.10:53916"></p>
+        <p>voiceTicket : <input type="text" id="voiceTicket" name="wss" value=""></p>
+        <p>
+            <span class="red button"></span>
+            <input type="button" id="setAddressBtn" value="Start record and set address" />
+        </p>
+        <p>
+            <span class="green button"></span>
+            <input type="button" id="stopRecordVoice" value="Stop record voice" />
+        </p>
+        <p>
+            <span class="yellow button"></span>
+            <input type="button" id="clearLogs" value="Clear logs" />
+        </p>
+        <p>
+            <span class="blue button"></span>
+            <input type="button" id="reloadApp" value="Reload app" />
+        </p>
+    <!--    <p>
+            <span class="yellow button"></span>
+            <input type="button" id="connectBtn" value="Connect to ws" />
+        </p>
+        <p>
+            <span class="blue button"></span>
+            <input type="button" id="closeConnectionBtn" value="Close ws connection" />
+        </p>-->
+    </form>
+    <div id="log"></div>
 </div>
-<form id="url">
-    WSS : <input type="text" id="wssAddress" name="wss" value="ws://192.168.0.10:53916"><br>
-    <input type="button" id="setAddressBtn" value="Set address" />
-    <input type="button" id="connectBtn" value="Connect" />
-    <input type="button" id="closeConnectionBtn" value="Close" />
-</form>
-<div id="log"></div>
 </body>
 </html>

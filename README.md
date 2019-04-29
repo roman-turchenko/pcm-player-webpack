@@ -1,5 +1,5 @@
 The settings for the local server you can find in webpack.config.dev.js
-Do not forget to change IP for your own
+Do not forget to change IP to your own
 
 PCM Player
 -----------
