@@ -1,7 +1,6 @@
-import { PCMPlayer } from "./lib/pcm-player"
 require('./sass/index')
 
-let ws, recordVoiceSubscription,
+let recordVoiceSubscription,
   elem = {};
 [
   'voiceTicket',
@@ -15,40 +14,6 @@ let ws, recordVoiceSubscription,
   'reloadApp'
 ].map( id => elem[id] = document.getElementById(id));
 
-function connect() {
-  if ("WebSocket" in window) {
-    websocket_connect(elem.wsAddress.value);
-  } else {
-    writeLog(`websocket is not supported`);
-  }
-}
-
-function close_connection() {
-  ws.close();
-}
-
-function websocket_connect(socketURL) {
-
-  var player = new PCMPlayer({
-    encoding: '16bitInt',
-    channels: 2,
-    sampleRate: 8000,
-    flushingTime: 2000
-  });
-
-  writeLog(`ws connection to ${socketURL}`);
-
-  ws = new WebSocket(socketURL);
-  ws.binaryType = 'arraybuffer';
-  ws.onopen = () => writeLog(`ws connection opened`);
-  ws.onclose = () => writeLog(`ws connection closed`);
-  ws.onerror = (error) => writeLog(`ws connection error ${error.message}`)
-  ws.onmessage = function(event) {
-    let data = new Uint8Array(event.data);
-    player.feed(data);
-  };
-}
-
 /**
  * define if webOS or not
  * @returns {boolean}
@@ -61,6 +26,7 @@ const isLGWebOS = () => {
  * execute recordVoice LUNA API
  * @returns {Promise<any>}
  */
+let recordVoiceTime
 const recordVoice = () => {
   return new Promise((resolve, reject) => {
     if (!isLGWebOS()){
@@ -78,10 +44,14 @@ const recordVoice = () => {
           reject(`${errorCode} ${errorText}`)
         }
 
+        recordVoiceTime = Date.now()
         resolve({ websocket, request, voiceTicket })
       },
       subscribe: true
     })
+  }).then((res) => {
+    writeLog('start record time:' + (Date.now() - recordVoiceTime) + ' ms')
+    return res;
   })
 };
 
@@ -128,8 +98,6 @@ elem.setAddressBtn.onclick = () => recordVoice()
     elem.wsAddress.value = `ws://${websocket}`;
     elem.voiceTicket.value = voiceTicket;
     recordVoiceSubscription = request;
-
-    connect();
   })
   .catch( error => {
     writeLog(error.message || error);
@@ -145,8 +113,6 @@ elem.stopRecordVoice.onclick = () => elem.voiceTicket.value
         recordVoiceSubscription.cancel();
         recordVoiceSubscription = null;
       }
-      // close ws connection
-      close_connection();
     })
   : writeLog('Empty voiceTicket');
 
